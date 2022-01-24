@@ -1,7 +1,8 @@
-namespace OOPsIDidItAgain._05.MakeUseOfTypeSafety.Web.Domain
+using OOPsIDidItAgain._05.MakeUseOfTypeSafety.Web.Domain.ItemSaleRule;
+
+namespace OOPsIDidItAgain._05.MakeUseOfTypeSafety.Web.Domain;
+
+public interface IItemSaleRuleRepository
 {
-    public interface IItemSaleRuleRepository
-    {
-        IItemSaleRule GetForItem(ItemId itemId);
-    }
+    IItemSaleRule GetForItem(ItemId itemId);
 }

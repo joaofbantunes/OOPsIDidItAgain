@@ -1,9 +1,8 @@
-using System;
+using OOPsIDidItAgain._04.OOifying.Web.Domain.ItemSaleRule;
 
-namespace OOPsIDidItAgain._04.OOifying.Web.Domain
+namespace OOPsIDidItAgain._04.OOifying.Web.Domain;
+
+public interface IItemSaleRuleRepository
 {
-    public interface IItemSaleRuleRepository
-    {
-        IItemSaleRule GetForItem(Guid itemId);
-    }
+    IItemSaleRule GetForItem(string itemId);
 }

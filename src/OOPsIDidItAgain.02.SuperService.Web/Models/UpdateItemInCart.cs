@@ -1,7 +1,6 @@
-﻿namespace OOPsIDidItAgain._02.SuperService.Web.Models
+﻿namespace OOPsIDidItAgain._02.SuperService.Web.Models;
+
+public class UpdateItemInCart
 {
-    public class UpdateItemInCart
-    {
-        public int Quantity { get; set; }
-    }
+    public int Quantity { get; set; }
 }

@@ -1,7 +1,6 @@
-namespace OOPsIDidItAgain._04.OOifying.Web.Domain.PostAddItemToCartListeners
+namespace OOPsIDidItAgain._04.OOifying.Web.Domain.PostAddItemToCartListeners;
+
+public interface IPostAddItemToCartListener
 {
-    public interface IPostAddItemToCartListener
-    {
-        void OnAdded(Cart cart, Item item, CartItem cartItem);
-    }
+    void OnAdded(Cart cart, Item item, CartItem cartItem);
 }

@@ -1,9 +1,6 @@
-using OOPsIDidItAgain._06.MinimizingExceptions.Web.Shared;
+namespace OOPsIDidItAgain._06.MinimizingExceptions.Web.Domain;
 
-namespace OOPsIDidItAgain._06.MinimizingExceptions.Web.Domain
+public interface IItemRepository
 {
-    public interface IItemRepository
-    {
-        Item? Get(ItemId itemId);
-    }
+    Item? Get(ItemId itemId);
 }

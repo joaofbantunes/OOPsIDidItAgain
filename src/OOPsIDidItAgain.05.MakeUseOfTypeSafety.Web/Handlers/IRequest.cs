@@ -1,7 +1,6 @@
-namespace OOPsIDidItAgain._05.MakeUseOfTypeSafety.Web.Handlers
+namespace OOPsIDidItAgain._05.MakeUseOfTypeSafety.Web.Handlers;
+
+public interface IRequest<TOut>
 {
-    public interface IRequest<TOut>
-    {
-        
-    }
+
 }

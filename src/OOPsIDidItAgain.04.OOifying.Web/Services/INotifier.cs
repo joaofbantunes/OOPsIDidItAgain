@@ -1,9 +1,6 @@
-using System;
+namespace OOPsIDidItAgain._04.OOifying.Web.Services;
 
-namespace OOPsIDidItAgain._04.OOifying.Web.Services
+public interface INotifier
 {
-    public interface INotifier
-    {
-        void Notify(Guid itemId);
-    }
+    void Notify(string itemId);
 }

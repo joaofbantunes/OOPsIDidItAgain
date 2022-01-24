@@ -1,11 +1,8 @@
-using System;
+namespace OOPsIDidItAgain._02.SuperService.Web.Data;
 
-namespace OOPsIDidItAgain._02.SuperService.Web.Data
+public class CartItem
 {
-    public class CartItem
-    {
-        public Guid ItemId { get; set; }
+    public string ItemId { get; set; }
 
-        public int Quantity { get; set; }
-    }
+    public int Quantity { get; set; }
 }

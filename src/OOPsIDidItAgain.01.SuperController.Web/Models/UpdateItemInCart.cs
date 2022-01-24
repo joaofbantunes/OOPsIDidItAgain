@@ -1,7 +1,6 @@
-﻿namespace OOPsIDidItAgain._01.SuperController.Web.Models
+﻿namespace OOPsIDidItAgain._01.SuperController.Web.Models;
+
+public record UpdateItemInCart
 {
-    public record UpdateItemInCart
-    {
-        public int Quantity { get; set; }
-    }
+    public int Quantity { get; set; }
 }

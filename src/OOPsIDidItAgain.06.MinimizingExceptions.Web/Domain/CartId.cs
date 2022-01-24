@@ -1,27 +1,25 @@
-using System;
-using System.Diagnostics.CodeAnalysis;
+using System.ComponentModel;
+using OOPsIDidItAgain._06.MinimizingExceptions.Web.ModelBinding;
 using OOPsIDidItAgain._06.MinimizingExceptions.Web.Shared;
 
-namespace OOPsIDidItAgain._06.MinimizingExceptions.Web.Domain
-{
-    /*
-     * Records are a quick way to implement strongly typed ids (and other techniques against primitive obsession), but not necessarily always the best.
-     * For an interesting approach using structs, take a look at: https://andrewlock.net/using-strongly-typed-entity-ids-to-avoid-primitive-obsession-part-1/
-     */
-    public sealed record CartId(Guid Value) : IStronglyTypedId
-    {
-        public static bool TryParse(string? input, [MaybeNullWhen(false)] out CartId output)
-        {
-            if (Guid.TryParse(input, out var value))
-            {
-                output = new(value);
-                return true;
-            }
+namespace OOPsIDidItAgain._06.MinimizingExceptions.Web.Domain;
 
-            output = null;
-            return false;
+[TypeConverter(typeof(StronglyTypedIdTypeConverter<CartId>))]
+public readonly record struct CartId(Guid Value) : IStronglyTypedId<CartId>
+{
+    public string AsString() => Value.ToString();
+    
+    public static bool TryParse(string? input, out CartId result)
+    {
+        if (Guid.TryParse(input, out var value))
+        {
+            result = new(value);
+            return true;
         }
 
-        public static CartId New() => new(Guid.NewGuid());
+        result = default;
+        return false;
     }
+
+    public static CartId New() => new(Guid.NewGuid());
 }

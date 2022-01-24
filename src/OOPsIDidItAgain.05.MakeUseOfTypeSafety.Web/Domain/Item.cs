@@ -1,12 +1,14 @@
-namespace OOPsIDidItAgain._05.MakeUseOfTypeSafety.Web.Domain
+namespace OOPsIDidItAgain._05.MakeUseOfTypeSafety.Web.Domain;
+
+public class Item
 {
-    public class Item
+    private Item(ItemId id)
     {
-        public Item()
-        {
-            Id = ItemId.New();
-        }
-        
-        public ItemId Id { get; }
+        Id = id;
     }
+
+    public ItemId Id { get; }
+
+    public static Item From(ItemId itemId)
+        => new (itemId);
 }

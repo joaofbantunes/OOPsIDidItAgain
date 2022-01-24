@@ -1,9 +1,6 @@
-using OOPsIDidItAgain._05.MakeUseOfTypeSafety.Web.Shared;
+namespace OOPsIDidItAgain._05.MakeUseOfTypeSafety.Web.Domain;
 
-namespace OOPsIDidItAgain._05.MakeUseOfTypeSafety.Web.Domain
+public interface IItemRepository
 {
-    public interface IItemRepository
-    {
-        Item? Get(ItemId itemId);
-    }
+    Item? Get(ItemId itemId);
 }

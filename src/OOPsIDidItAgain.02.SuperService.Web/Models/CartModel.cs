@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿namespace OOPsIDidItAgain._02.SuperService.Web.Models;
 
-namespace OOPsIDidItAgain._02.SuperService.Web.Models
+public class CartModel
 {
-    public class CartModel
-    {
-        public Guid Id { get; set; }
+    public string Id { get; set; }
 
-        public IEnumerable<CartItemModel> Items { get; set; }
-    }
+    public IEnumerable<CartItemModel> Items { get; set; }
 }

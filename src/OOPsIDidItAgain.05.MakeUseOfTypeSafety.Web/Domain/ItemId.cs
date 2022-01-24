@@ -1,27 +1,31 @@
-using System;
-using System.Diagnostics.CodeAnalysis;
-using OOPsIDidItAgain._05.MakeUseOfTypeSafety.Web.Shared;
+using System.Text.RegularExpressions;
 
-namespace OOPsIDidItAgain._05.MakeUseOfTypeSafety.Web.Domain
+namespace OOPsIDidItAgain._05.MakeUseOfTypeSafety.Web.Domain;
+
+public readonly record struct ItemId
 {
-    /*
-     * Records are a quick way to implement strongly typed ids (and other techniques against primitive obsession), but not necessarily always the best.
-     * For an interesting approach using structs, take a look at: https://andrewlock.net/using-strongly-typed-entity-ids-to-avoid-primitive-obsession-part-1/
-     */
-    public sealed record ItemId(Guid Value) : IStronglyTypedId
-    {
-        public static bool TryParse(string? input, [MaybeNullWhen(false)] out ItemId output)
-        {
-            if (Guid.TryParse(input, out var value))
-            {
-                output = new(value);
-                return true;
-            }
+    private static readonly Regex Regex = new("^(\\d{3})-(\\d{7})$", RegexOptions.Compiled);
 
-            output = null;
-            return false;
+    private ItemId(string prefix, string suffix)
+    {
+        Prefix = prefix;
+        Suffix = suffix;
+    }
+
+    public string Prefix { get; }
+
+    public string Suffix { get; }
+
+    public static bool TryParse(string? input, out ItemId result)
+    {
+        Match match;
+        if (!string.IsNullOrWhiteSpace(input) && (match = Regex.Match(input)).Success)
+        {
+            result = new(match.Groups[1].Value, match.Groups[2].Value);
+            return true;
         }
 
-        public static ItemId New() => new(Guid.NewGuid());
+        result = default;
+        return false;
     }
 }

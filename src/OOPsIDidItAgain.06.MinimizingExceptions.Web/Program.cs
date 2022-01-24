@@ -1,26 +1,47 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using OOPsIDidItAgain._06.MinimizingExceptions.Web.Domain;
+using OOPsIDidItAgain._06.MinimizingExceptions.Web.Domain.PostAddItemToCartListeners;
+using OOPsIDidItAgain._06.MinimizingExceptions.Web.Features.Carts;
+using OOPsIDidItAgain._06.MinimizingExceptions.Web.Handlers;
+using OOPsIDidItAgain._06.MinimizingExceptions.Web.Infrastructure;
+using OOPsIDidItAgain._06.MinimizingExceptions.Web.ModelBinding;
+using OOPsIDidItAgain._06.MinimizingExceptions.Web.Services;
+using OOPsIDidItAgain._06.MinimizingExceptions.Web.Shared;
 
-namespace OOPsIDidItAgain._06.MinimizingExceptions.Web
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.Configure<Microsoft.AspNetCore.Http.Json.JsonOptions>(o =>
 {
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            CreateHostBuilder(args).Build().Run();
-        }
+    o.SerializerOptions.Converters.Add(new StronglyTypedIdJsonConverter<CartId>());
+    o.SerializerOptions.Converters.Add(new StronglyTypedIdJsonConverter<ItemId>());
+});
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
-    }
-}
+builder.Services
+    .AddScoped<IRequestHandler<AddItemToCart.Request, Either<Error, Unit>>, AddItemToCart.Handler>()
+    .AddScoped<IRequestHandler<GetCart.Request, Maybe<GetCart.Response>>, GetCart.Handler>();
+
+builder.Services
+    .Decorate<IRequestHandler<AddItemToCart.Request, Either<Error, Unit>>,
+        RequestHandlerLoggingDecorator<AddItemToCart.Request, Either<Error, Unit>>>()
+    .Decorate<IRequestHandler<GetCart.Request, Maybe<GetCart.Response>>,
+        RequestHandlerLoggingDecorator<GetCart.Request, Maybe<GetCart.Response>>>();
+
+builder.Services
+    .AddSingleton<ICartRepository, InMemoryCartRepository>()
+    .AddSingleton<IItemRepository, InMemoryItemRepository>()
+    .AddSingleton<IItemSaleRuleRepository, InMemoryItemSaleRuleRepository>()
+    .AddSingleton<INotifier, LoggingNotifier>()
+    .AddSingleton<IPostAddItemToCartListener>(
+        s => new CompositePostAddItemToCartListener(
+            new[]
+            {
+                new WatchlistNotifierListener(
+                    s.GetRequiredService<INotifier>(),
+                    new[] {((Either<Error, ItemId>.Right) ItemId.From("123", "4567890")).Value})
+            }));
+
+var app = builder.Build();
+
+AddItemToCartEndpoint.MapEndpoint(app);
+GetCartEndpoint.MapEndpoint(app);
+
+app.Run();

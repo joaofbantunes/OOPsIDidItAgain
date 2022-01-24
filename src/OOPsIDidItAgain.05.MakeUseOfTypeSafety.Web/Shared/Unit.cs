@@ -1,12 +1,11 @@
-namespace OOPsIDidItAgain._05.MakeUseOfTypeSafety.Web.Shared
+namespace OOPsIDidItAgain._05.MakeUseOfTypeSafety.Web.Shared;
+
+public sealed class Unit
 {
-    public sealed class Unit
+    private Unit()
     {
-        private Unit()
-        {
-            
-        }
-        
-        public static Unit Instance { get; } = new Unit();
+
     }
+
+    public static Unit Instance { get; } = new Unit();
 }

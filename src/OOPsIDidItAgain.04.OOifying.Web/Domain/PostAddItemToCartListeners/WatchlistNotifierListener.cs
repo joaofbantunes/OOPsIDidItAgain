@@ -1,26 +1,23 @@
-using System;
-using System.Collections.Generic;
 using OOPsIDidItAgain._04.OOifying.Web.Services;
 
-namespace OOPsIDidItAgain._04.OOifying.Web.Domain.PostAddItemToCartListeners
+namespace OOPsIDidItAgain._04.OOifying.Web.Domain.PostAddItemToCartListeners;
+
+public class WatchlistNotifierListener : IPostAddItemToCartListener
 {
-    public class WatchlistNotifierListener : IPostAddItemToCartListener
+    private readonly INotifier _notifier;
+    private readonly HashSet<string> _itemsInWatchlist;
+
+    public WatchlistNotifierListener(INotifier notifier, IReadOnlyCollection<string> itemsInWatchlist)
     {
-        private readonly INotifier _notifier;
-        private readonly HashSet<Guid> _itemsInWatchlist;
+        _notifier = notifier;
+        _itemsInWatchlist = new HashSet<string>(itemsInWatchlist);
+    }
 
-        public WatchlistNotifierListener(INotifier notifier, IReadOnlyCollection<Guid> itemsInWatchlist)
+    public void OnAdded(Cart cart, Item item, CartItem cartItem)
+    {
+        if (_itemsInWatchlist.Contains(item.Id))
         {
-            _notifier = notifier;
-            _itemsInWatchlist = new HashSet<Guid>(itemsInWatchlist);
-        }
-
-        public void OnAdded(Cart cart, Item item, CartItem cartItem)
-        {
-            if (_itemsInWatchlist.Contains(item.Id))
-            {
-                _notifier.Notify(item.Id);
-            }
+            _notifier.Notify(item.Id);
         }
     }
 }

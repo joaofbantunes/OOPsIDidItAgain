@@ -1,7 +1,8 @@
-namespace OOPsIDidItAgain._06.MinimizingExceptions.Web.Domain
+using OOPsIDidItAgain._06.MinimizingExceptions.Web.Domain.ItemSaleRule;
+
+namespace OOPsIDidItAgain._06.MinimizingExceptions.Web.Domain;
+
+public interface IItemSaleRuleRepository
 {
-    public interface IItemSaleRuleRepository
-    {
-        IItemSaleRule GetForItem(ItemId itemId);
-    }
+    IItemSaleRule GetForItem(ItemId itemId);
 }

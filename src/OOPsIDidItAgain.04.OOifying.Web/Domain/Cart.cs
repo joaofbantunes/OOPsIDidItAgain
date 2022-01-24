@@ -1,50 +1,47 @@
-using System;
-using System.Collections.Generic;
 using OOPsIDidItAgain._04.OOifying.Web.Exceptions;
 
-namespace OOPsIDidItAgain._04.OOifying.Web.Domain
+namespace OOPsIDidItAgain._04.OOifying.Web.Domain;
+
+public class Cart
 {
-    public class Cart
+    private readonly Dictionary<string, CartItem> _items;
+
+    public Cart()
     {
-        private readonly Dictionary<Guid, CartItem> _items;
+        Id = Guid.NewGuid().ToString();
+        _items = new Dictionary<string, CartItem>();
+    }
 
-        public Cart()
+    public string Id { get; }
+
+    public IReadOnlyCollection<CartItem> Items => _items.Values;
+
+    public CartItem AddItemToCart(Item item, int quantity)
+    {
+        if (_items.ContainsKey(item.Id))
         {
-            Id = Guid.NewGuid();
-            _items = new Dictionary<Guid, CartItem>();
+            throw new ValidationException($"Item {item.Id} already in the cart.");
         }
 
-        public Guid Id { get; }
+        var cartItem = new CartItem(item.Id, quantity);
+        _items.Add(item.Id, cartItem);
+        return cartItem;
+    }
 
-        public IReadOnlyCollection<CartItem> Items => _items.Values;
-
-        public CartItem AddItemToCart(Item item, int quantity)
+    public CartItem UpdateItemInCart(string itemId, int quantity)
+    {
+        if (!_items.ContainsKey(itemId))
         {
-            if (_items.ContainsKey(item.Id))
-            {
-                throw new ValidationException($"Item {item.Id} already in the cart.");
-            }
-
-            var cartItem = new CartItem(item.Id, quantity);
-            _items.Add(item.Id, cartItem);
-            return cartItem;
+            throw new ValidationException($"Item {itemId} not in the cart.");
         }
 
-        public CartItem UpdateItemInCart(Guid itemId, int quantity)
-        {
-            if (!_items.ContainsKey(itemId))
-            {
-                throw new ValidationException($"Item {itemId} not in the cart.");
-            }
+        var cartItem = new CartItem(itemId, quantity);
+        _items[itemId] = cartItem;
+        return cartItem;
+    }
 
-            var cartItem = new CartItem(itemId, quantity);
-            _items[itemId] = cartItem;
-            return cartItem;
-        }
-
-        public void RemoveItemFromCart(Guid itemId)
-        {
-            _items.Remove(itemId);
-        }
+    public void RemoveItemFromCart(string itemId)
+    {
+        _items.Remove(itemId);
     }
 }

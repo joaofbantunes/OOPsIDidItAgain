@@ -1,9 +1,8 @@
 using OOPsIDidItAgain._05.MakeUseOfTypeSafety.Web.Domain;
 
-namespace OOPsIDidItAgain._05.MakeUseOfTypeSafety.Web.Services
+namespace OOPsIDidItAgain._05.MakeUseOfTypeSafety.Web.Services;
+
+public interface INotifier
 {
-    public interface INotifier
-    {
-        void Notify(ItemId itemId);
-    }
+    void Notify(ItemId itemId);
 }
