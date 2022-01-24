@@ -1,9 +1,6 @@
-using System;
+namespace OOPsIDidItAgain._02.SuperService.Web.Data;
 
-namespace OOPsIDidItAgain._02.SuperService.Web.Data
+public interface IItemRepository
 {
-    public interface IItemRepository
-    {
-        Item Get(Guid itemId);
-    }
+    Item Get(string itemId);
 }

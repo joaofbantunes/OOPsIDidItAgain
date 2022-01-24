@@ -1,21 +1,18 @@
-using System;
 using OOPsIDidItAgain._06.MinimizingExceptions.Web.Domain;
 using OOPsIDidItAgain._06.MinimizingExceptions.Web.Domain.ItemSaleRule;
+using OOPsIDidItAgain._06.MinimizingExceptions.Web.Shared;
 
-namespace OOPsIDidItAgain._06.MinimizingExceptions.Web.Infrastructure
+namespace OOPsIDidItAgain._06.MinimizingExceptions.Web.Infrastructure;
+
+public class InMemoryItemSaleRuleRepository : IItemSaleRuleRepository
 {
-    public class InMemoryItemSaleRuleRepository : IItemSaleRuleRepository
+    public IItemSaleRule GetForItem(ItemId itemId)
     {
-        public IItemSaleRule GetForItem(ItemId itemId)
-        {
-            if (itemId.Equals(new ItemId(Guid.Parse("2f823b5c-f93e-431e-a64c-a59f407d236f"))))
-            {
-                return new MaximumQuantityPerSaleRule(2);
-            }
-            else
-            {
-                return new NoopItemSaleRule();
-            }
-        }
+        // cheating with the cast 😛
+        var value = ((Either<Error, ItemId>.Right) ItemId.From("987", "6543210")).Value;
+
+        return itemId.Equals(value)
+            ? new MaximumQuantityPerSaleRule(2)
+            : new NoopItemSaleRule();
     }
 }

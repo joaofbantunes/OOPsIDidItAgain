@@ -1,9 +1,6 @@
-using System;
+namespace OOPsIDidItAgain._03.IndividualRequestHandlers.Web.Data;
 
-namespace OOPsIDidItAgain._03.IndividualRequestHandlers.Web.Data
+public interface IItemRepository
 {
-    public interface IItemRepository
-    {
-        Item Get(Guid itemId);
-    }
+    Item Get(string itemId);
 }

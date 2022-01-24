@@ -1,11 +1,8 @@
-using System;
+namespace OOPsIDidItAgain._03.IndividualRequestHandlers.Web.Data;
 
-namespace OOPsIDidItAgain._03.IndividualRequestHandlers.Web.Data
+public class CartItem
 {
-    public class CartItem
-    {
-        public Guid ItemId { get; set; }
+    public string ItemId { get; set; }
 
-        public int Quantity { get; set; }
-    }
+    public int Quantity { get; set; }
 }

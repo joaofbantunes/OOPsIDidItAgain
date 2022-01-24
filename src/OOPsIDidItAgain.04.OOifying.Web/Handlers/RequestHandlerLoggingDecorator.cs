@@ -1,29 +1,26 @@
-using Microsoft.Extensions.Logging;
+namespace OOPsIDidItAgain._04.OOifying.Web.Handlers;
 
-namespace OOPsIDidItAgain._04.OOifying.Web.Handlers
+public class RequestHandlerLoggingDecorator<TIn, TOut> : IRequestHandler<TIn, TOut> where TIn : IRequest<TOut>
 {
-    public class RequestHandlerLoggingDecorator<TIn, TOut> : IRequestHandler<TIn, TOut> where TIn : IRequest<TOut>
-    {
-        private readonly IRequestHandler<TIn, TOut> _next;
-        private readonly ILogger<RequestHandlerLoggingDecorator<TIn, TOut>> _logger;
+    private readonly IRequestHandler<TIn, TOut> _next;
+    private readonly ILogger<RequestHandlerLoggingDecorator<TIn, TOut>> _logger;
 
-        public RequestHandlerLoggingDecorator(IRequestHandler<TIn, TOut> next, ILogger<RequestHandlerLoggingDecorator<TIn, TOut>> logger)
+    public RequestHandlerLoggingDecorator(IRequestHandler<TIn, TOut> next, ILogger<RequestHandlerLoggingDecorator<TIn, TOut>> logger)
+    {
+        _next = next;
+        _logger = logger;
+    }
+
+    public TOut Handle(TIn input)
+    {
+        try
         {
-            _next = next;
-            _logger = logger;
+            _logger.LogTrace("Handling {requestName}", typeof(TIn).Name);
+            return _next.Handle(input);
         }
-        
-        public TOut Handle(TIn input)
+        finally
         {
-            try
-            {
-                _logger.LogTrace("Handling {requestName}", typeof(TIn).Name);
-                return _next.Handle(input);
-            }
-            finally
-            {
-                _logger.LogTrace("Done handling {requestName}", typeof(TIn).Name);
-            }
+            _logger.LogTrace("Done handling {requestName}", typeof(TIn).Name);
         }
     }
 }

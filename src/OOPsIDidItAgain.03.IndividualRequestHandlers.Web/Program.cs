@@ -1,26 +1,17 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using OOPsIDidItAgain._03.IndividualRequestHandlers.Web.Features.Carts;
 
-namespace OOPsIDidItAgain._03.IndividualRequestHandlers.Web
-{
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            CreateHostBuilder(args).Build().Run();
-        }
+var builder = WebApplication.CreateBuilder(args);
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
-    }
-}
+builder.Services.AddControllers();
+
+var app = builder.Build();
+
+// use controllers
+app.MapControllers();
+
+// or use endpoints
+AddItemToCartEndpoint.MapEndpoint(app);
+    
+// (or both, they're not mutually exclusive)
+
+app.Run();

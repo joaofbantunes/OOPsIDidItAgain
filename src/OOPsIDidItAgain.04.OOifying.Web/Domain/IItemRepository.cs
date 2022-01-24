@@ -1,9 +1,6 @@
-using System;
+namespace OOPsIDidItAgain._04.OOifying.Web.Domain;
 
-namespace OOPsIDidItAgain._04.OOifying.Web.Domain
+public interface IItemRepository
 {
-    public interface IItemRepository
-    {
-        Item Get(Guid itemId);
-    }
+    Item Get(string itemId);
 }

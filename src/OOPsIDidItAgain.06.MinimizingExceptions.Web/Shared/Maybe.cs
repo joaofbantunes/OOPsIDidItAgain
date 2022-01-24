@@ -1,38 +1,36 @@
-using System;
 using System.Diagnostics.CodeAnalysis;
 
-namespace OOPsIDidItAgain._06.MinimizingExceptions.Web.Shared
+namespace OOPsIDidItAgain._06.MinimizingExceptions.Web.Shared;
+
+// Simple implementation for demo
+// For a fully featured implementation, checkout https://github.com/nlkl/Optional or https://github.com/louthy/language-ext
+
+public static class Maybe
 {
-    // Simple implementation for demo
-    // For a fully featured implementation, checkout https://github.com/nlkl/Optional or https://github.com/louthy/language-ext
+    public static Maybe<T> Some<T>(T value) where T : notnull => new(value);
 
-    public static class Maybe
+    public static Maybe<T> None<T>() where T : notnull => new();
+
+    public static Maybe<T> FromNullable<T>(T? value) where T : class => value is not null ? Some(value) : None<T>();
+}
+
+public readonly struct Maybe<T>
+{
+    private readonly T _value;
+
+    internal Maybe(T value)
     {
-        public static Maybe<T> Some<T>(T value) where T : notnull => new(value);
-
-        public static Maybe<T> None<T>() where T : notnull => new();
-
-        public static Maybe<T> FromNullable<T>(T? value) where T : class => value is not null ? Some(value) : None<T>();
+        _value = value ?? throw new ArgumentNullException(nameof(value));
+        HasValue = true;
     }
 
-    public readonly struct Maybe<T>
+    public bool HasValue { get; }
+
+    public T ValueOr(Func<T> alternativeFactory) => HasValue ? _value : alternativeFactory();
+
+    public bool TryGetValue([MaybeNullWhen(false)] out T value)
     {
-        private readonly T _value;
-
-        internal Maybe(T value)
-        {
-            _value = value ?? throw new ArgumentNullException(nameof(value));
-            HasValue = true;
-        }
-
-        public bool HasValue { get; }
-
-        public T ValueOr(Func<T> alternativeFactory) => HasValue ? _value : alternativeFactory();
-
-        public bool TryGetValue([MaybeNullWhen(false)] out T value)
-        {
-            value = HasValue ? _value : default;
-            return HasValue;
-        }
+        value = HasValue ? _value : default;
+        return HasValue;
     }
 }

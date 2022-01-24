@@ -1,5 +1,3 @@
-using System;
-
 namespace OOPsIDidItAgain._02.SuperService.Web.Exceptions
 {
     public class ValidationException : Exception

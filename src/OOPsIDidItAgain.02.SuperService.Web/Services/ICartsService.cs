@@ -1,18 +1,16 @@
-using System;
 using OOPsIDidItAgain._02.SuperService.Web.Data;
 
-namespace OOPsIDidItAgain._02.SuperService.Web.Services
+namespace OOPsIDidItAgain._02.SuperService.Web.Services;
+
+public interface ICartsService
 {
-    public interface ICartsService
-    {
-        Cart Get(Guid cartId);
+    Cart Get(string cartId);
 
-        Cart CreateCart();
+    Cart CreateCart();
 
-        void AddItemToCart(Guid cartId, Guid itemId, int quantity);
+    void AddItemToCart(string cartId, string itemId, int quantity);
 
-        void UpdateItemInCart(Guid cartId, Guid itemId, int quantity);
+    void UpdateItemInCart(string cartId, string itemId, int quantity);
 
-        void RemoveItemFromCart(Guid cartId, Guid itemId);
-    }
+    void RemoveItemFromCart(string cartId, string itemId);
 }

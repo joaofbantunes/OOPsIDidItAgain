@@ -1,7 +1,5 @@
-namespace OOPsIDidItAgain._03.IndividualRequestHandlers.Web.Handlers
+namespace OOPsIDidItAgain._03.IndividualRequestHandlers.Web.Handlers;
+
+public interface IRequest<TOut>
 {
-    public interface IRequest<TOut>
-    {
-        
-    }
 }

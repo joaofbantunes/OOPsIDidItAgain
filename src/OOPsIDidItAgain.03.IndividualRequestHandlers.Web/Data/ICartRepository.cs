@@ -1,13 +1,11 @@
-using System;
-
 namespace OOPsIDidItAgain._03.IndividualRequestHandlers.Web.Data
 {
     public interface ICartRepository
     {
-        Cart Get(Guid id);
-        
+        Cart Get(string id);
+
         Cart Save(Cart cart);
 
-        void Delete(Guid id);
+        void Delete(string id);
     }
 }

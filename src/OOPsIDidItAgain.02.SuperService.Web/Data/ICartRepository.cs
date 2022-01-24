@@ -1,13 +1,10 @@
-using System;
+namespace OOPsIDidItAgain._02.SuperService.Web.Data;
 
-namespace OOPsIDidItAgain._02.SuperService.Web.Data
+public interface ICartRepository
 {
-    public interface ICartRepository
-    {
-        Cart Get(Guid id);
+    Cart Get(string id);
         
-        Cart Save(Cart cart);
+    Cart Save(Cart cart);
 
-        void Delete(Guid id);
-    }
+    void Delete(string id);
 }
